@@ -5,43 +5,38 @@
  */ 
  
 import java.io.File;
-import java.io.IOException;
-import java.awt.Image;
-import javax.imageio.ImageIO;
-//import org.apache.commons.io.FilenameUtils;
  
 /* The entry factory is designed as a simple input output class. It takes as its input 
    the path to a file and build an entry object out of the file's data. The new entry 
    object is then returned for further use. */ 
 public class EntryFactory{
 	
+	private DHash dHash;
+	
 	//Constructor
-	public EntryFactory(){}
+	public EntryFactory(){
+		dHash = new DHash();
+	}
 	
 	//Build Entry
 	public Entry buildEntry(String fileLocation){
 		File file = null;
-		Image image = null;
 		
-		try {								//try-catch for IO exception
+		try { 
 			file = new File(fileLocation);
-			image = ImageIO.read(file);
-		} catch (IOException e){
-			System.out.println("Error: "+e);
-			return null;
+		} catch (Exception e){
+			System.out.println(e);
 		}
 		
-		if (file == null || image == null) return null;	//In case assignment fails
+		if (file == null) return null;	//in case assignment fails
 		
-		Entry newEntry = new Entry();
-		newEntry.setFileLocation(fileLocation);
-		newEntry.setFileName(file.getName());
-		//newEntry.setFileFormat(FilenameUtils.getExtension(newEntry.getFileName()));
-		newEntry.setFileSize(file.length());
-		newEntry.setFileWidth(image.getWidth(null));
-		newEntry.setFileHeight(image.getHeight(null));
-				
-		return newEntry;
+		if (file.length() > 0){			//this checks for whether the file exists or not
+			Entry newEntry = new Entry(fileLocation, file.getName(), file.length(), dHash.getHash(fileLocation));
+			return newEntry;
+		} else {
+			return null;
+		}				
+		
 	}
 	
 	//Test function
@@ -50,6 +45,7 @@ public class EntryFactory{
 		if (args.length > 0){
 			EntryFactory testFactory = new EntryFactory();
 			Entry testEntry = testFactory.buildEntry(args[0]);
+			System.out.println(testEntry);
 		} else {
 			System.out.println("Usage: java EntryFactory <path to file>");
 		}
