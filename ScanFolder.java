@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.*;
 
 
 public class ScanFolder {
@@ -11,7 +12,8 @@ public class ScanFolder {
         listFilesForFolder(folder);
     }
 
-    public static void listFilesForFolder(final File folder) {
+    public static ArrayList<String> listFilesForFolder(final File folder) {
+        ArrayList<String> names = new ArrayList<String>();
         for (final File fileEntry : folder.listFiles()) {
             //System.out.println(fileEntry);
             if (fileEntry.isDirectory()) {
@@ -22,10 +24,12 @@ public class ScanFolder {
                     temp = fileEntry.getName();
                     //filter files by type
                     //if ((temp.substring(temp.lastIndexOf('.') + 1, temp.length()).toLowerCase()).equals("mov"))
-                        System.out.println("File: " + fileEntry.getName());
+                        //System.out.println("File: " + fileEntry.getName());
+                    names.add(temp);
                 }
 
             }
         }
+        return names;
     }
 }
