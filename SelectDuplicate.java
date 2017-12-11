@@ -27,6 +27,7 @@ public class SelectDuplicate extends JFrame{
 //		initializes size of window - once integrated should be called within existing UI window from home screen, 
 //		once the folder containing photos has been selected
 		this.setSize(800, 600);
+		this.setLocation(200, 50);
 		
 		JPanel holder = new JPanel();
 		
@@ -56,9 +57,9 @@ public class SelectDuplicate extends JFrame{
 		
 		this.add(holder);
 		duplicatePanel = holder;
-		this.validate();
-		this.repaint();
-		this.setVisible(true);
+		// this.validate();
+		// this.repaint();
+		// this.setVisible(true);
 		return duplicatePanel;
 	}
 	
