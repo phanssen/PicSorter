@@ -14,7 +14,7 @@ import java.io.IOException;
 /* An extension of an Array List designed for holding entries marked for deletion 
    Its primary purpose should only be to delete files or otherwise move them 
    to a place where the user can decide what to do with them  */
-public class DeletionArray extends ArrayList<Entry>{
+public class SelectionArray extends ArrayList<Entry>{
 	
 	//Deletes all entries in the table
  	public void deleteAll(){
