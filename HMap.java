@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * 
@@ -65,16 +66,39 @@ public class HMap <K, V>{
 		return hMap.values();
 	}
 	
+	//returns an array list of all duplicates in the hash map
+	public Collection<ArrayList<V>> getAllDuplicates(){
+		Collection<ArrayList<V>> duplicates = hMap.values();
+		
+		Iterator<ArrayList<V>> iter = duplicates.iterator();
+		
+		while(iter.hasNext()){
+			ArrayList<V> list = iter.next();
+			
+			if (list.size() == 1) iter.remove();
+		}
 
+		return duplicates;
+	}
+	
+	//test function
+	//expected output:
+	//keys:										[0.3, 0.1]
+	//duplicate list:							[[world,earth][hi,hello]]
+	//entry list for key 0.1:					[hi,hello]
+	//entry list for key 0.1 after removing hi:	[hello]
 	public static void main(String[] args) {
 		HMap <Double, String> n = new HMap();
 		n.insert(0.1, "hi");
 		n.insert(0.1, "hello");
 		n.insert(0.3, "world");
+		n.insert(0.3, "earth");
 		System.out.println(n.getKeys());
+		System.out.println(n.getAllDuplicates());
 		System.out.println(n.get(0.1));
 		n.remove(0.1, "hi");
 		System.out.println(n.get(0.1));
+		
 	}
 
 }
