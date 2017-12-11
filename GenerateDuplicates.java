@@ -84,6 +84,13 @@ public class GenerateDuplicates extends JFrame{
 			Image newimg = image.getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 			smallIcon = new ImageIcon(newimg);
 			JLabel picture = new JLabel(smallIcon);
+			picture.addMouseListener(new MouseAdapter() {
+				  @Override
+//				  on click the JLabel calls Select method to select the duplicate file
+				  public void mouseClicked(MouseEvent e) {
+					  SelectDuplicates.Select(duplicateFile, picture);
+				  }
+				});
 			allDuplicates.add(picture);
 		}
 		
@@ -124,7 +131,7 @@ public class GenerateDuplicates extends JFrame{
 // Test function for the GenerateDuplicates class.
 	private static void test(){
 //		create all classes needed to parse specified folder for duplicates
-		SelectDuplicate testWindow = new SelectDuplicate();
+		GenerateDuplicates testWindow = new GenerateDuplicates();
 		EntryFactory factory = new EntryFactory();
 		HMap<Long, Entry> sizeMap = new HMap<Long, Entry>();
 		ArrayList<ArrayList<Entry>> duplicates = new ArrayList<ArrayList<Entry>>();
