@@ -1,5 +1,5 @@
 /**
- * Deletion Array: stores duplicates for deletion
+ * Selection Array: stores duplicates for deletion or moving
  * Author: Ryan Sellar
  * Date: Nov. 18th 2018
  */
@@ -9,7 +9,7 @@ import java.io.File;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.io.IOException;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+// import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
  
 /* An extension of an Array List designed for holding entries marked for deletion 
    Its primary purpose should only be to delete files or otherwise move them 
@@ -44,7 +44,7 @@ public class DeletionArray extends ArrayList<Entry>{
 		target.mkdirs();
 		for (Entry entry: this){
 			File e  = new File (entry.getFileLocation());
-			e.renameTo(new File (target.getPath() + "\\" + entry.getFileName()));
+			e.renameTo(new File (target.getPath() + "/" + entry.getFileName()));
 			e.delete();
 		}
 	} 
