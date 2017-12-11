@@ -35,8 +35,7 @@ public class EntryFactory{
 			return newEntry;
 		} else {
 			return null;
-		}				
-		
+		}
 	}
 	
 	//Test function

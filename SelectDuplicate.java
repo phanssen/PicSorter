@@ -16,19 +16,20 @@ public class SelectDuplicate extends JFrame{
 		test();
 	}
 
-//	class variable storing the panel that holds all the duplicate sets once displayDuplicates has been called the first time
-private Panel duplicatePanel;
+	//	class variable storing the panel that holds all the duplicate sets once displayDuplicates has been called the first time
+	private JPanel duplicatePanel;
 
 
 	//This method displays one image for each set of duplicates in a JPanel within the window.
 	//Each image is a JLabel that acts as a button so the user can click on it to view all of the duplicates
 	//in that set.
-	public void displayDuplicates(ArrayList<ArrayList<Entry>> duplicates){
+	public JPanel displayDuplicates(ArrayList<ArrayList<Entry>> duplicates){
 //		initializes size of window - once integrated should be called within existing UI window from home screen, 
 //		once the folder containing photos has been selected
 		this.setSize(800, 600);
+		this.setLocation(200, 50);
 		
-		Panel holder = new Panel();
+		JPanel holder = new JPanel();
 		
 //		create one JLabel for each set of duplicates, add it to the panel
 		for(final ArrayList<Entry> duplicateGroup : duplicates){
@@ -56,9 +57,10 @@ private Panel duplicatePanel;
 		
 		this.add(holder);
 		duplicatePanel = holder;
-		this.validate();
-		this.repaint();
-		this.setVisible(true);
+		// this.validate();
+		// this.repaint();
+		// this.setVisible(true);
+		return duplicatePanel;
 	}
 	
 	//clears all containers within the window
@@ -70,7 +72,7 @@ private Panel duplicatePanel;
 //	this panel will be created each time a duplicate set is selected - 
 //	takes slightly longer each time but saves room instead of storing a large number of sets of images
 	public void expand(ArrayList<Entry> duplicates){
-		Panel allDuplicates = new Panel();
+		JPanel allDuplicates = new JPanel();
 		
 //		adds the "back button" JLabel as the first image of the set
 //		maybe could create back arrow class to save time implementing each time its called?
@@ -117,8 +119,8 @@ private Panel duplicatePanel;
 		EntryFactory factory = new EntryFactory();
 		HMap<Long, Entry> sizeMap = new HMap<Long, Entry>();
 		ArrayList<ArrayList<Entry>> duplicates = new ArrayList<ArrayList<Entry>>();
-		File folder = new File("/Users/jacobtower/Photos/");
-		ArrayList<String> fileLocations = scanfolder.listFilesForFolder(folder);
+		File folder = new File("/Users/paigehanssen/Desktop/PicSorterTest");
+		ArrayList<String> fileLocations = ScanFolder.listFilesForFolder(folder);
 		
 //		Create an entry for each duplicate, build file size hashmap of all entries by file size
 		for(String name : fileLocations){
@@ -127,13 +129,14 @@ private Panel duplicatePanel;
 		}
 		
 		//	fill arrayList of arrayLists with each set of duplicates 
-		for(Long key : sizeMap.getKey()){
+		for(Long key : sizeMap.getKeys()){
+			System.out.println(sizeMap.get(key));
 			if(sizeMap.get(key).size() > 1){
 				duplicates.add(sizeMap.get(key));
 			}
 		}
 //		pass arrayList<arrayList<Entry>> containing all sets of duplicates into displayDuplicates to create grid of
 //		duplicate images for user selection
-		testWindow.displayDuplicates(duplicates);
+		//testWindow.displayDuplicates(duplicates);
 	}
 }
