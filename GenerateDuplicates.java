@@ -79,10 +79,7 @@ public class GenerateDuplicates extends JFrame{
 		JPanel allDuplicates = new JPanel();
 //		load each individual duplicate image, display in grid
 		for (Entry duplicateFile : duplicates){
-			ImageIcon smallIcon = new ImageIcon(duplicateFile.getFileLocation()); // load the image to a imageIcon
-			Image image = smallIcon.getImage(); // transform it 
-			Image newimg = image.getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
-			smallIcon = new ImageIcon(newimg);
+			ImageIcon smallIcon = scaleImage(duplicateFile.getFileLocation());
 			JLabel picture = new JLabel(smallIcon);
 			picture.addMouseListener(new MouseAdapter() {
 				  @Override
