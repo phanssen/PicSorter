@@ -114,6 +114,22 @@ public class GenerateDuplicates extends JFrame{
 			}
 		});
 		allDuplicates.add(move);
+		
+		//adds a button that deletes the selected photos
+		JButton deleteButton = new JButton("Move Selected Photos to Trash");
+		deleteButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+            		SelectDuplicates.getSelections().deleteAll();
+            		for(JLabel duplicate : SelectDuplicates.getImages()) {
+            			allDuplicates.remove(duplicate);
+            		}
+            		repaint();
+            		revalidate();
+            		setVisible(true);
+			}
+		});
+		allDuplicates.add(deleteButton);
 		this.add(allDuplicates);
 	}
 	
