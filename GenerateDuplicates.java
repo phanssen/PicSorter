@@ -1,13 +1,18 @@
+/*
+ * GenerateDuplicates class: Generates, stores, and displays a panel with an image from each duplicate set
+ * Author: Jacob Tower
+ */
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 
-//	currently extends JFrame to create its own window - 
-//	once integrated it will have to be able to run in window it is called from
-public class SelectDuplicate extends JFrame{
+public class GenerateDuplicates extends JFrame{
 
 	private static final long serialVersionUID = -4983971561262660902L;
 	//automatically computed serialVersionUID
@@ -16,16 +21,14 @@ public class SelectDuplicate extends JFrame{
 		test();
 	}
 
-	//	class variable storing the panel that holds all the duplicate sets once displayDuplicates has been called the first time
+	//stores the panel that holds all the duplicate sets
 	private JPanel duplicatePanel;
 
 
 	//This method displays one image for each set of duplicates in a JPanel within the window.
-	//Each image is a JLabel that acts as a button so the user can click on it to view all of the duplicates
-	//in that set.
+	//Each image displays the entire set of duplicates on click
 	public JPanel displayDuplicates(ArrayList<ArrayList<Entry>> duplicates){
-//		initializes size of window - once integrated should be called within existing UI window from home screen, 
-//		once the folder containing photos has been selected
+//		initializes window
 		this.setSize(800, 600);
 		this.setLocation(200, 50);
 		
@@ -33,17 +36,14 @@ public class SelectDuplicate extends JFrame{
 		
 //		create one JLabel for each set of duplicates, add it to the panel
 		for(final ArrayList<Entry> duplicateGroup : duplicates){
-//		Resizing image to fit within grid
-			ImageIcon smallIcon = new ImageIcon(duplicateGroup.get(0).getFileLocation()); // load the image to a imageIcon
-			Image image = smallIcon.getImage(); // transform it 
-			Image newimg = image.getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
-			smallIcon = new ImageIcon(newimg);
+//		Resize image to fit in grid
+			ImageIcon smallIcon = scaleImage(duplicateGroup.get(0).getFileLocation());
 			
 //		Add image to JLabel, enable expansion on click
 			JLabel button = new JLabel(smallIcon);
 			button.addMouseListener(new MouseAdapter() {
 				  @Override
-//				  on click the JLabel should call expand to display entire set of duplicates
+//				  on click the JLabel calls expand to display the set of duplicates
 				  public void mouseClicked(MouseEvent e) {
 					 clear();
 				     expand(duplicateGroup);
@@ -57,10 +57,16 @@ public class SelectDuplicate extends JFrame{
 		
 		this.add(holder);
 		duplicatePanel = holder;
-		// this.validate();
-		// this.repaint();
-		// this.setVisible(true);
 		return duplicatePanel;
+	}
+	
+	//Scales specified image
+	public static ImageIcon scaleImage(String filelocation) {
+		ImageIcon smallIcon = new ImageIcon(filelocation); // load the image to a imageIcon
+		Image image = smallIcon.getImage(); // transform it 
+		Image newimg = image.getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		smallIcon = new ImageIcon(newimg);
+		return smallIcon;
 	}
 	
 	//clears all containers within the window
@@ -69,27 +75,8 @@ public class SelectDuplicate extends JFrame{
 	}
 	
 //	creates a new panel containing each duplicate image from the selected duplicate set
-//	this panel will be created each time a duplicate set is selected - 
-//	takes slightly longer each time but saves room instead of storing a large number of sets of images
 	public void expand(ArrayList<Entry> duplicates){
 		JPanel allDuplicates = new JPanel();
-		
-//		adds the "back button" JLabel as the first image of the set
-//		maybe could create back arrow class to save time implementing each time its called?
-//			issue is passing window or panel of duplicate sets into the class so that it can be called from the mouseListener
-		ImageIcon arrow = new ImageIcon("/Users/jacobtower/Pictures/backArrow.png");
-		Image pic = arrow.getImage(); 
-		Image smallPic = pic.getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH); 
-		arrow = new ImageIcon(smallPic);
-		final JLabel back = new JLabel(arrow);
-		back.addMouseListener(new MouseAdapter() {
-			  @Override
-			  public void mouseClicked(MouseEvent e) {
-				  showDuplicates();
-			  }
-			});
-		allDuplicates.add(back);
-		
 //		load each individual duplicate image, display in grid
 		for (Entry duplicateFile : duplicates){
 			ImageIcon smallIcon = new ImageIcon(duplicateFile.getFileLocation()); // load the image to a imageIcon
@@ -99,11 +86,34 @@ public class SelectDuplicate extends JFrame{
 			JLabel picture = new JLabel(smallIcon);
 			allDuplicates.add(picture);
 		}
+		
+		//adds a button that moves any selected photos to a selected folder
+		JButton move = new JButton("Move Duplicate Photos");
+		move.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+                		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+                		//select only folders, not individual files
+               			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+               			int result = fileChooser.showOpenDialog(move);
+                		if (result == JFileChooser.APPROVE_OPTION) {
+                			File selectedFile = fileChooser.getSelectedFile();
+                			SelectDuplicates.getSelections().moveAll(selectedFile.getAbsolutePath());
+                			for(JLabel duplicate : SelectDuplicates.getImages()) {
+                				allDuplicates.remove(duplicate);
+                			}
+                			repaint();
+                			revalidate();
+                			setVisible(true);
+                		}
+			}
+		});
+		allDuplicates.add(move);
 		this.add(allDuplicates);
 	}
 	
-//	displays one image from each set of duplicates so the user can select the duplicate group to expand
-//	clears the frame and makes stored Panel of duplicate sets visible
+//	displays previously generated duplicatePanel
 	public void showDuplicates(){
 		this.clear();
 		this.add(duplicatePanel);
@@ -111,8 +121,7 @@ public class SelectDuplicate extends JFrame{
 		this.setVisible(true);
 	}
 	
-// Test function for the SelectDuplicate class. Currently requires hard coded file path for the folder selection - 
-// add a file path argument to main methods?
+// Test function for the GenerateDuplicates class.
 	private static void test(){
 //		create all classes needed to parse specified folder for duplicates
 		SelectDuplicate testWindow = new SelectDuplicate();
@@ -135,8 +144,5 @@ public class SelectDuplicate extends JFrame{
 				duplicates.add(sizeMap.get(key));
 			}
 		}
-//		pass arrayList<arrayList<Entry>> containing all sets of duplicates into displayDuplicates to create grid of
-//		duplicate images for user selection
-		//testWindow.displayDuplicates(duplicates);
 	}
 }
