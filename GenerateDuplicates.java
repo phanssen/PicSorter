@@ -21,14 +21,13 @@ public class GenerateDuplicates extends JFrame{
 		test();
 	}
 
-	//stores the panel that holds all the duplicate sets
 	private static JPanel duplicatePanel;
 
 
-	//This method displays one image for each set of duplicates in a JPanel within the window.
+	//Displays one image for each set of duplicates in a JPanel within the window.
 	//Each image displays the entire set of duplicates on click
 	public JPanel displayDuplicates(ArrayList<ArrayList<Entry>> duplicates){
-//		initializes window
+//		initializes window 
 		this.setSize(800, 600);
 		this.setLocation(200, 50);
 		
@@ -38,8 +37,7 @@ public class GenerateDuplicates extends JFrame{
 		for(final ArrayList<Entry> duplicateGroup : duplicates){
 //		Resize image to fit in grid
 			ImageIcon smallIcon = scaleImage(duplicateGroup.get(0).getFileLocation());
-			
-//		Add image to JLabel, enable expansion on click
+					
 			JLabel button = new JLabel(smallIcon);
 			button.addMouseListener(new MouseAdapter() {
 				  @Override
@@ -60,6 +58,8 @@ public class GenerateDuplicates extends JFrame{
 		return duplicatePanel;
 	}
 	
+	
+	
 	//Scales specified image
 	public static ImageIcon scaleImage(String filelocation) {
 		ImageIcon smallIcon = new ImageIcon(filelocation); // load the image to a imageIcon
@@ -69,15 +69,18 @@ public class GenerateDuplicates extends JFrame{
 		return smallIcon;
 	}
 	
+	
+	
 	//clears all containers within the window
 	public void clear(){
 		this.getContentPane().removeAll();
 	}
 	
+	
+	
 //	creates a new panel containing each duplicate image from the selected duplicate set
 	public void expand(ArrayList<Entry> duplicates, JLabel selectedSet){
-		JPanel allDuplicates = new JPanel();
-//		load each individual duplicate image, display in grid
+		JPanel allDuplicates = new JPanel();		
 		for (Entry duplicateFile : duplicates){
 			ImageIcon smallIcon = scaleImage(duplicateFile.getFileLocation());
 			JLabel picture = new JLabel(smallIcon);
@@ -92,34 +95,34 @@ public class GenerateDuplicates extends JFrame{
 		}
 		
 		//adds a button that moves any selected photos to a selected folder
-		JButton move = new JButton("Move Duplicate Photos");
+		JButton move = new JButton("Move Selected Photos");
 		move.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(SelectDuplicates.hasSelections()) {
 					JFileChooser fileChooser = new JFileChooser();
-					fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-					//select only folders, not individual files
-					fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-					int result = fileChooser.showOpenDialog(move);
-					if (result == JFileChooser.APPROVE_OPTION) {
-						File selectedFile = fileChooser.getSelectedFile();
-						SelectDuplicates.getSelections().moveAll(selectedFile.getAbsolutePath());
-						for(JLabel duplicate : SelectDuplicates.getImages()) {
-							allDuplicates.remove(duplicate);
-						}
-						if(duplicates.size() == SelectDuplicates.getSelections().size()) {
-							JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(move);
-							topFrame.setVisible(false);
-							SelectDuplicates.clearSelections();
-							removeSet(selectedSet);
-							return;
-	                			}
+	                fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+	                //select only folders, not individual files
+	                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	                int result = fileChooser.showOpenDialog(move);
+	                if (result == JFileChooser.APPROVE_OPTION) {
+	                		File selectedFile = fileChooser.getSelectedFile();
+	                		SelectDuplicates.getSelections().moveAll(selectedFile.getAbsolutePath());
+	                		for(JLabel duplicate : SelectDuplicates.getImages()) {
+	                			allDuplicates.remove(duplicate);
+	                		}
+	                		if(duplicates.size() == SelectDuplicates.getSelections().size()) {
+	                			JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(move);
+	                			topFrame.setVisible(false);
 	                			SelectDuplicates.clearSelections();
-						repaint();
-						revalidate();
-						setVisible(true);
-					}
+	                			removeSet(selectedSet);
+	                			return;
+	                		}
+	                		SelectDuplicates.clearSelections();
+	                		repaint();
+	                		revalidate();
+	                		setVisible(true);
+	                }
 				}
 			}
 		});
@@ -159,7 +162,6 @@ public class GenerateDuplicates extends JFrame{
 		this.add(allDuplicates);
 	}
 	
-//	removes the JLabel representation of a set from the home screen
 	public static void removeSet(JLabel set) {
 		JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(set);
 		duplicatePanel.remove(set);
@@ -167,6 +169,7 @@ public class GenerateDuplicates extends JFrame{
 		topFrame.repaint();
 		topFrame.setVisible(true);
 	}
+	
 	
 //	displays previously generated duplicatePanel
 	public void showDuplicates(){
@@ -176,7 +179,10 @@ public class GenerateDuplicates extends JFrame{
 		this.setVisible(true);
 	}
 	
+	
+	
 // Test function for the GenerateDuplicates class.
+	@SuppressWarnings("unused")
 	private static void test(){
 //		create all classes needed to parse specified folder for duplicates
 		GenerateDuplicates testWindow = new GenerateDuplicates();
@@ -199,5 +205,7 @@ public class GenerateDuplicates extends JFrame{
 				duplicates.add(sizeMap.get(key));
 			}
 		}
+
 	}
 }
+
