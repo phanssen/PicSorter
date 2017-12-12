@@ -12,94 +12,32 @@
 public class Entry {
 	
 	public String fileLocation;
-	public String fileName;
-	public String fileFormat;
-	
+	public String fileName;	
 	public long fileSize;		//how should size be measured? bytes? kilobytes?
-	private int fileWidth;		//X dimension
-	private int fileHeight;		//Y dimension
 	
 	//Empty Constructor
 	public Entry(){
 		fileLocation = "";
-		fileName = "";
-		fileFormat = "";
-		
+		fileName = "";		
 		fileSize = 0;
-		fileWidth = 0;
-		fileHeight = 0;
 	}
 	
 	//Constructor
-	public Entry(String location, String name, String format, int size, int X, int Y){
+	public Entry(String location, String name, int size){
 		fileLocation = location;
-		fileName = name;
-		fileFormat = format;
-		
+		fileName = name;		
 		fileSize = size;
-		fileWidth = X;
-		fileHeight = Y;
-	}
-	
-	//Accessor functions
-	public String getFileLocation(){
-		return fileLocation;
-	}
-	
-	public String getFileName(){
-		return fileName;
-	}
-	
-/* 	public String getFileFormat(){
-		return fileFormat;
-	} */
-	
-	public long getFileSize(){
-		return fileSize;
-	}
-	
-	public int getFileWidth(){
-		return fileWidth;
-	}
-	
-	public int getFileHeight(){
-		return fileHeight;
-	}
-	
-	//Modification functions
-	public void setFileLocation(String location){
-		fileLocation = location;
-	}
-	
-	public void setFileName(String name){
-		fileName = name;
-	}
-	
-/* 	public void setFileFormat(String format){
-		fileFormat = format;
-	} */
-	
-	public void setFileSize(long size){
-		fileSize = size;
-	}
-	
-	public void setFileWidth(int X){
-		fileWidth = X;
-	}
-	
-	public void setFileHeight(int Y){
-		fileHeight = Y;
 	}
 	
 	//String conversion prints out entry data
 	public String toString(){
-		String entryData = "\nFile location: " + fileLocation + "\nFilename: " + fileName + "\nFile format: " + fileFormat + "\nFile size: " + fileSize + "\nFile dimensions: " + fileWidth + " x " + fileHeight + "\n";
+		String entryData = "\nFile location: " + fileLocation + "\nFilename: " + fileName + "\nFile size: " + fileSize + "\n";
 		return entryData;
 	}
 	
 	//Test function
 	public static void main(String[] args){
-		Entry testEntry = new Entry("C:\\users\\John\\Pictures", "example.jpg", "jpg", 100000, 500, 750);
+		Entry testEntry = new Entry("C:\\users\\John\\Pictures", "example.jpg", 100000);
 		System.out.println(testEntry);
 	}
 }
