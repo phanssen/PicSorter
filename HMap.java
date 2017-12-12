@@ -66,39 +66,22 @@ public class HMap <K, V>{
 		return hMap.values();
 	}
 	
-	//returns an array list of all duplicates in the hash map
+	/**
+	*
+	* @returns an array list of all duplicates in the hash map
+	*/
 	public Collection<ArrayList<V>> getAllDuplicates(){
 		Collection<ArrayList<V>> duplicates = hMap.values();
 		
-		Iterator<ArrayList<V>> iter = duplicates.iterator();
+		Iterator<ArrayList<V>> iter = duplicates.iterator(); //create new iterator
 		
-		while(iter.hasNext()){
-			ArrayList<V> list = iter.next();
+		while(iter.hasNext()){ //loop if there is more
+			ArrayList<V> list = iter.next();  //add to list
 			
-			if (list.size() == 1) iter.remove();
+			if (list.size() == 1) iter.remove();//remove from iterator 
 		}
 
 		return duplicates;
-	}
-	
-	//test function
-	//expected output:
-	//keys:										[0.3, 0.1]
-	//duplicate list:							[[world,earth][hi,hello]]
-	//entry list for key 0.1:					[hi,hello]
-	//entry list for key 0.1 after removing hi:	[hello]
-	public static void main(String[] args) {
-		HMap <Double, String> n = new HMap();
-		n.insert(0.1, "hi");
-		n.insert(0.1, "hello");
-		n.insert(0.3, "world");
-		n.insert(0.3, "earth");
-		System.out.println(n.getKeys());
-		System.out.println(n.getAllDuplicates());
-		System.out.println(n.get(0.1));
-		n.remove(0.1, "hi");
-		System.out.println(n.get(0.1));
-		
 	}
 
 }
