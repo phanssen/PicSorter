@@ -75,7 +75,7 @@ public class GenerateDuplicates extends JFrame{
 	}
 	
 //	creates a new panel containing each duplicate image from the selected duplicate set
-	public void expand(ArrayList<Entry> duplicates){
+	public void expand(ArrayList<Entry> duplicates, JLabel selectedSet){
 		JPanel allDuplicates = new JPanel();
 //		load each individual duplicate image, display in grid
 		for (Entry duplicateFile : duplicates){
@@ -108,6 +108,14 @@ public class GenerateDuplicates extends JFrame{
 						for(JLabel duplicate : SelectDuplicates.getImages()) {
 							allDuplicates.remove(duplicate);
 						}
+						if(duplicates.size() == SelectDuplicates.getSelections().size()) {
+							JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(move);
+							topFrame.setVisible(false);
+							SelectDuplicates.clearSelections();
+							removeSet(selectedSet);
+							return;
+	                			}
+	                			SelectDuplicates.clearSelections();
 						repaint();
 						revalidate();
 						setVisible(true);
@@ -123,18 +131,41 @@ public class GenerateDuplicates extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(SelectDuplicates.hasSelections()) {
-					SelectDuplicates.getSelections().deleteAll();
-					for(JLabel duplicate : SelectDuplicates.getImages()) {
-						allDuplicates.remove(duplicate);
+					String message = "Are you sure you want to permanently delete these images?";
+					String title = "Warning";
+					int response = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
+					
+					if(response == JOptionPane.YES_OPTION) {
+		            		SelectDuplicates.getSelections().deleteAll();
+		            		for(JLabel duplicate : SelectDuplicates.getImages()) {
+		            			allDuplicates.remove(duplicate);
+		            		}
+		            		if(duplicates.size() == SelectDuplicates.getSelections().size()) {
+	                			JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(move);
+	                			topFrame.setVisible(false);
+	                			SelectDuplicates.clearSelections();
+	                			removeSet(selectedSet);
+	                			return;
+	                		}
+	                		SelectDuplicates.clearSelections();
+		            		repaint();
+		            		revalidate();
+		            		setVisible(true);
 					}
-					repaint();
-					revalidate();
-					setVisible(true);
 				}
 			}
 		});
 		allDuplicates.add(deleteButton);
 		this.add(allDuplicates);
+	}
+	
+//	removes the JLabel representation of a set from the home screen
+	public static void removeSet(JLabel set) {
+		JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(set);
+		duplicatePanel.remove(set);
+		topFrame.revalidate();
+		topFrame.repaint();
+		topFrame.setVisible(true);
 	}
 	
 //	displays previously generated duplicatePanel
