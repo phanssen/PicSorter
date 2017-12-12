@@ -36,8 +36,9 @@ public class GenerateDuplicates extends JFrame{
 //		create one JLabel for each set of duplicates, add it to the panel
 		for(final ArrayList<Entry> duplicateGroup : duplicates){
 //		Resize image to fit in grid
-			ImageIcon smallIcon = scaleImage(duplicateGroup.get(0).getFileLocation());
-					
+			ImageIcon smallIcon = scaleImage(duplicateGroup.get(0).fileLocation);
+			
+//		Add image to JLabel, enable expansion on click
 			JLabel button = new JLabel(smallIcon);
 			button.addMouseListener(new MouseAdapter() {
 				  @Override
@@ -64,7 +65,7 @@ public class GenerateDuplicates extends JFrame{
 	public static ImageIcon scaleImage(String filelocation) {
 		ImageIcon smallIcon = new ImageIcon(filelocation); // load the image to a imageIcon
 		Image image = smallIcon.getImage(); // transform it 
-		Image newimg = image.getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+		Image newimg = image.getScaledInstance(150, 150,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
 		smallIcon = new ImageIcon(newimg);
 		return smallIcon;
 	}
@@ -82,7 +83,7 @@ public class GenerateDuplicates extends JFrame{
 	public void expand(ArrayList<Entry> duplicates, JLabel selectedSet){
 		JPanel allDuplicates = new JPanel();		
 		for (Entry duplicateFile : duplicates){
-			ImageIcon smallIcon = scaleImage(duplicateFile.getFileLocation());
+			ImageIcon smallIcon = scaleImage(duplicateFile.fileLocation);
 			JLabel picture = new JLabel(smallIcon);
 			picture.addMouseListener(new MouseAdapter() {
 				  @Override
@@ -195,7 +196,7 @@ public class GenerateDuplicates extends JFrame{
 //		Create an entry for each duplicate, build file size hashmap of all entries by file size
 		for(String name : fileLocations){
 			Entry e = factory.buildEntry(name);
-			sizeMap.insert(e.getFileSize(), e);
+			sizeMap.insert(e.fileSize, e);
 		}
 		
 		//	fill arrayList of arrayLists with each set of duplicates 

@@ -20,7 +20,7 @@ public class SelectionArray extends ArrayList<Entry>{
  	public void deleteAll(){
 		for (Entry entry : this){
 			try { 
-				Files.delete(Paths.get(entry.getFileLocation()));
+				Files.delete(Paths.get(entry.fileLocation));
 			} catch (IOException e){
 				System.out.println(e);
 			}
@@ -43,26 +43,26 @@ public class SelectionArray extends ArrayList<Entry>{
 		File target = new File(filepath);
 		target.mkdirs();
 		for (Entry entry: this){
-			File e  = new File (entry.getFileLocation());
-			e.renameTo(new File (target.getPath() + "/" + entry.getFileName()));
+			File e  = new File (entry.fileLocation);
+			e.renameTo(new File (target.getPath() + "/" + entry.fileName));
 			e.delete();
 		}
 	} 
 	
 	public static void main(String[] args){
-		DeletionArray delArr = new DeletionArray();
-		EntryFactory factory = new EntryFactory();
+		// DeletionArray delArr = new DeletionArray();
+		// EntryFactory factory = new EntryFactory();
 		
-		delArr.add(factory.buildEntry("C:\\Users\\metis\\Desktop\\TestFolder\\01.png"));
-		delArr.add(factory.buildEntry("C:\\Users\\metis\\Desktop\\TestFolder\\02.png"));
-		delArr.add(factory.buildEntry("C:\\Users\\metis\\Desktop\\TestFolder\\03.png"));
+		// delArr.add(factory.buildEntry("C:\\Users\\metis\\Desktop\\TestFolder\\01.png"));
+		// delArr.add(factory.buildEntry("C:\\Users\\metis\\Desktop\\TestFolder\\02.png"));
+		// delArr.add(factory.buildEntry("C:\\Users\\metis\\Desktop\\TestFolder\\03.png"));
 				
-		System.out.println(delArr);
+		// System.out.println(delArr);
 		
-		delArr.moveAll("C:\\Users\\metis\\Desktop\\TestFolder\\InnerFolder");
+		// delArr.moveAll("C:\\Users\\metis\\Desktop\\TestFolder\\InnerFolder");
 		
-		//delArr.deleteAll();
+		// //delArr.deleteAll();
 		
-		System.out.println(delArr);		
+		// System.out.println(delArr);		
 	}
 }

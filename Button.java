@@ -7,7 +7,7 @@ public abstract class Button extends JButton{
 		super(text); //new JButton object 
 	}
 	
-	public abstract void update(Display obj);
+	public abstract void update(Object obj);
 
 
 }
