@@ -96,21 +96,23 @@ public class GenerateDuplicates extends JFrame{
 		move.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
-                		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-                		//select only folders, not individual files
-               			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-               			int result = fileChooser.showOpenDialog(move);
-                		if (result == JFileChooser.APPROVE_OPTION) {
-                			File selectedFile = fileChooser.getSelectedFile();
-                			SelectDuplicates.getSelections().moveAll(selectedFile.getAbsolutePath());
-                			for(JLabel duplicate : SelectDuplicates.getImages()) {
-                				allDuplicates.remove(duplicate);
-                			}
-                			repaint();
-                			revalidate();
-                			setVisible(true);
-                		}
+				if(SelectDuplicates.hasSelections()) {
+					JFileChooser fileChooser = new JFileChooser();
+					fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+					//select only folders, not individual files
+					fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+					int result = fileChooser.showOpenDialog(move);
+					if (result == JFileChooser.APPROVE_OPTION) {
+						File selectedFile = fileChooser.getSelectedFile();
+						SelectDuplicates.getSelections().moveAll(selectedFile.getAbsolutePath());
+						for(JLabel duplicate : SelectDuplicates.getImages()) {
+							allDuplicates.remove(duplicate);
+						}
+						repaint();
+						revalidate();
+						setVisible(true);
+					}
+				}
 			}
 		});
 		allDuplicates.add(move);
