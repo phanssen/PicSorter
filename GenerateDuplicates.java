@@ -22,7 +22,7 @@ public class GenerateDuplicates extends JFrame{
 	}
 
 	//stores the panel that holds all the duplicate sets
-	private JPanel duplicatePanel;
+	private static JPanel duplicatePanel;
 
 
 	//This method displays one image for each set of duplicates in a JPanel within the window.
