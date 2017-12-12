@@ -39,4 +39,9 @@ public class SelectDuplicates {
 		else return false;
 	}
 	
+	public static void clearSelections() {
+		selections.clear();
+		selectedImages.clear();
+	}
+	
 }
