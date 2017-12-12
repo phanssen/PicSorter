@@ -122,13 +122,15 @@ public class GenerateDuplicates extends JFrame{
 		deleteButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-            		SelectDuplicates.getSelections().deleteAll();
-            		for(JLabel duplicate : SelectDuplicates.getImages()) {
-            			allDuplicates.remove(duplicate);
-            		}
-            		repaint();
-            		revalidate();
-            		setVisible(true);
+				if(SelectDuplicates.hasSelections()) {
+					SelectDuplicates.getSelections().deleteAll();
+					for(JLabel duplicate : SelectDuplicates.getImages()) {
+						allDuplicates.remove(duplicate);
+					}
+					repaint();
+					revalidate();
+					setVisible(true);
+				}
 			}
 		});
 		allDuplicates.add(deleteButton);
