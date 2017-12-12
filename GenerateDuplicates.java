@@ -46,7 +46,7 @@ public class GenerateDuplicates extends JFrame{
 //				  on click the JLabel calls expand to display the set of duplicates
 				  public void mouseClicked(MouseEvent e) {
 					 clear();
-				     expand(duplicateGroup);
+				     expand(duplicateGroup, button);
 				     validate();
 				     repaint();
 				     setVisible(true);
