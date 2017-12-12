@@ -20,9 +20,9 @@ public class EntryFactory{
 		file = new File(fileLocation);
 		
 		Entry newEntry = new Entry();
-		newEntry.setFileLocation(fileLocation);
-		newEntry.setFileName(file.getName());
-		newEntry.setFileSize(file.length());
+		newEntry.fileLocation = fileLocation;
+		newEntry.fileName = file.getName();
+		newEntry.fileSize = file.length();
 				
 		return newEntry;
 	}
