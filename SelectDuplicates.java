@@ -32,4 +32,11 @@ public class SelectDuplicates {
 		return selectedImages;
 	}
 	
+	public static boolean hasSelections() {
+		if (selections.size() > 0){
+			return true;
+		}
+		else return false;
+	}
+	
 }
