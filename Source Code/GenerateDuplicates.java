@@ -113,7 +113,16 @@ instead of being within the expand method - Original code is commented out at th
 		});
 		allDuplicates.add(delete);
 		this.add(allDuplicates);
-	
+		
+		//Adds a window listener to clear the selectionArray if the duplicate window is closed
+		JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(allDuplicates);
+		topFrame.addWindowListener(new WindowAdapter()
+		{
+		    public void windowClosing(WindowEvent e)
+		    {
+		        SelectDuplicates.clearSelections();
+		    }
+		});
 		
 /*		
 This is the code prior to refactoring:
