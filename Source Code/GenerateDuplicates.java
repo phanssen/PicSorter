@@ -8,12 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-
 import javax.swing.*;
 import java.util.ArrayList;
+import java.awt.Color;
 
 public class GenerateDuplicates extends JFrame{
 
@@ -22,13 +22,12 @@ public class GenerateDuplicates extends JFrame{
 
 	private static JPanel duplicatePanel;
 
-
 	//Displays one image for each set of duplicates in a JPanel within the window.
 	public JPanel displayDuplicates(ArrayList<ArrayList<Entry>> duplicates){
 		//initializes window 
 		this.setSize(800, 600);
 		this.setLocation(200, 50);
-		
+
 		JPanel holder = new JPanel();
 		
 		//create one JLabel for each set of duplicates, add it to the panel
@@ -82,7 +81,10 @@ instead of being within the expand method - Original code is commented out at th
 	
 	//creates a new panel containing each duplicate image from the selected duplicate set
 	public void expand(ArrayList<Entry> duplicates, JLabel selectedSet){
-		JPanel allDuplicates = new JPanel();		
+		JPanel container = new JPanel(new BorderLayout());
+		JPanel allDuplicates = new JPanel(new FlowLayout());
+		JPanel buttonsPanel = new JPanel();
+		allDuplicates.setBackground(Color.lightGray);
 		for (Entry duplicateFile : duplicates){
 			ImageIcon smallIcon = scaleImage(duplicateFile.fileLocation);
 			JLabel picture = new JLabel(smallIcon);
@@ -95,6 +97,7 @@ instead of being within the expand method - Original code is commented out at th
 				});
 			allDuplicates.add(picture);
 		}
+		container.add(allDuplicates, BorderLayout.CENTER);
 		
 		//adds a button that moves any selected photos to a selected folder
 		moveButton move = new moveButton("Move Selected Photos");
@@ -103,7 +106,7 @@ instead of being within the expand method - Original code is commented out at th
 				move.Move(allDuplicates, duplicates, selectedSet);
 			}
 		});
-		allDuplicates.add(move);
+		buttonsPanel.add(move);
 		
 		//adds a button that deletes the selected photos
 		deleteButton delete = new deleteButton("Delete Selected Photos");
@@ -113,8 +116,9 @@ instead of being within the expand method - Original code is commented out at th
 				delete.Delete(allDuplicates, duplicates, selectedSet);
 			}
 		});
-		allDuplicates.add(delete);
-		this.add(allDuplicates);
+		buttonsPanel.add(delete);
+		container.add(buttonsPanel, BorderLayout.PAGE_END);
+		this.add(container);
 		
 		//Adds a window listener to clear the selectionArray if the duplicate window is closed
 		JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(allDuplicates);
