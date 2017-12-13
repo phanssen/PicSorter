@@ -1,7 +1,7 @@
 The purpose of this readme is to explain the basic usage of PicSorter.
 
 How to run:
-	Run PicSorter by executing the .jar file called Home.jar
+	Run PicSorter by executing the .jar file called PicSorter.jar
 	
 Using the program:
 	Once the program has opened, select a folder containing images by clicking 
